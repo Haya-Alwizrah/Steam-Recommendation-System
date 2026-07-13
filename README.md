@@ -74,4 +74,4 @@ During the exploration, we found that `coming_soon` and `platforms_win` each con
 The original values were stored as dates such as `May 17, 2022`, which Pandas treated as object type. We used a regular expression (Regex) to extract only the release year.
 
 - Price Conversion:
-We converted the price_usd column to price_sar by multiplying each value by 3.75.
+We converted the `price_usd` column to `price_sar` by multiplying each value by 3.75.
