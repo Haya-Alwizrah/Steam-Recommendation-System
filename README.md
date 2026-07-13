@@ -5,8 +5,9 @@ Steam Recommendation System is a project focused on Exploratory Data Analysis (E
 Live Demo: ....
 
 ---
-# EDA:
+# Exploratory Data Analysis (EDA)
 
+## Dataset Information
 - df.info()
 ```
 bool(5), float64(2), int64(12), object(10)
@@ -36,36 +37,41 @@ metacritic_score    63.879599
 estimated_owners     0.334448
 dtype: float64
 ```
-- drop column `metacritic_score`.
-- drop row
+- Dropped the ذmetacritic_scoreذ column due to the high percentage of missing values.
+- Removed rows containing missing values in the remaining columns.
+
 ---
-# duplicates:
-the result from `df.duplicated().sum()` showing no duplicates, howover when we explore date columns we found there are duplicate of 2 games name will there value is differnt:
+# Duplicate Records:
+`df.duplicated().sum()` showed that there were no completely duplicated rows. However, when examining the name column, we found two games with duplicate names but different values in other columns.
 
 `df["name"].value_counts()`
 ```
 Time Gentlemen, Please! and Ben There, Dan That! Special Edition  Double Pack    2
 Call of Duty®: WWII                                                              2
 ```
-so we sort the dataframe based on `positive_reviews` then take first game.
+To keep the most reliable record, we sorted the DataFrame by positive_reviews in descending order and kept the first occurrence of each game.
 ```
 df = df.sort_values(by='positive_reviews', ascending=False).reset_index(drop=True)
 df = df.drop_duplicates(subset=['name'], keep='first')
 ```
 ---
-## handle columns value:
+## Data Preprocessing:
 
 - `estimated_owners`:
-the orgonal value is like `1,000,000 .. 2,000,000` which i pandas catagorize it as object type, so create function that for each row split the 2 number and take the mean as new value.
+The original values were stored as ranges (e.g., 1,000,000 .. 2,000,000), which Pandas interpreted as object type. We created a function to split each range into its lower and upper bounds, then replaced the range with its average value.
 
 - `genres`, `categories`, `tags`:
-this 3 columns countain multivalue in one ceil, so to handle this we split each value in new column (like one hot encoding) and add prefix to each column name to avoid same name.
+These columns contained multiple values within a single cell. We split each value into separate columns and added prefixes to the generated columns to avoid duplicate column names.
+generated columns count:
+  - genres: 24
+  - categories: 56
+  - tags: 397
 
 - drop constant:
-while explor dataframe we found `coming_soon`, `platforms_win` have only one value, so we drop these columns
+During the exploration, we found that `coming_soon` and `platforms_win` each contained only a single unique value, so they were removed because they provide no useful information for analysis or modeling.
 
 - `release_date`:
-the orgonal value is like `May 17, 2022` which i pandas catagorize it as object type, so with regex we take only the year as new value.
+The original values were stored as dates such as `May 17, 2022`, which Pandas treated as object type. We used a regular expression (Regex) to extract only the release year.
 
-- `price_usd` to `price_sar`:
-we change the price from usd to sar by multply it by 3.75
+- Price Conversion:
+We converted the price_usd column to price_sar by multiplying each value by 3.75.
