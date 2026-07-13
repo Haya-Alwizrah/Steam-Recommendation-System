@@ -61,7 +61,7 @@ df = df.drop_duplicates(subset=['name'], keep='first')
 The original values were stored as ranges (e.g., 1,000,000 .. 2,000,000), which Pandas interpreted as object type. We created a function to split each range into its lower and upper bounds, then replaced the range with its average value.
 
 - `genres`, `categories`, `tags`:
-These columns contained multiple values within a single cell. We split each value into separate columns and added prefixes to the generated columns to avoid duplicate column names.
+These columns contained multiple values within a single cell. We split each value into separate columns using one-hot encoding and added prefixes to the generated columns to avoid duplicate column names.
 generated columns count:
   - genres: 24
   - categories: 56
