@@ -1,33 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container" style="max-width: 1000px;">
-    <h2>Search for your favorite game</h2>
-    <form method="POST">
-        <input list="games" name="game" placeholder="Type to search..." style="width: 100%; padding: 15px; background: #1a1a1a; border: 1px solid #00ffcc; color: #fff;">
+<div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
+    
+    <h2 style="text-align: left;">Search for your favorite game</h2>
+    <form method="POST" style="display: flex; gap: 10px; width: 100%; margin-bottom: 40px;">
+        <input list="games" name="game" placeholder="Type game name..." required 
+               style="flex-grow: 1; padding: 15px; background: #1a1a1a; border: 1px solid #00ffcc; color: #fff; border-radius: 5px;">
         <datalist id="games">
             {% for g in games %} <option value="{{ g }}"> {% endfor %}
         </datalist>
-        <button type="submit" style="margin-top: 10px;">Get Recommendations</button>
+        <button type="submit" style="padding: 0 30px; background: #ff00ff; border: none; color: white; cursor: pointer; border-radius: 5px; font-weight: bold;">Search</button>
     </form>
 
     {% if selected_info %}
-    <div class="card" style="margin-top: 30px; border: 2px solid #ff00ff;">
-        <img src="{{ selected_info.header_image }}" style="width: 200px;">
-        <div>
-            <h3>{{ selected_info.name }}</h3>
-            <p>{{ selected_info.short_description }}</p>
+    <div class="card" style="display: flex; gap: 20px; padding: 30px; border: 2px solid #00ffcc; background: rgba(0,0,0,0.8);">
+        <img src="{{ selected_info.header_image }}" style="width: 300px; height: 180px; object-fit: cover; border-radius: 8px;">
+        
+        <div style="text-align: left;">
+            <h3 style="margin-top: 0; font-size: 28px;">{{ selected_info.name }}</h3>
+            
+            <p style="font-size: 18px; color: #fff; line-height: 1.5; margin: 15px 0;">{{ selected_info.short_description }}</p>
+            
+            <div style="font-size: 12px; color: #aaa;">
+                <span style="background: #333; padding: 5px 10px; border-radius: 4px;">Category: {{ selected_info.categories }}</span>
+                <span style="background: #333; padding: 5px 10px; border-radius: 4px; margin-left: 10px;">Genre: {{ selected_info.genres }}</span>
+            </div>
         </div>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 30px;">
+    <h3 style="margin-top: 40px;">Recommended for you:</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+        
         {% for rec in recommendations %}
-        <div class="card" style="flex-direction: column; text-align: center;">
-            <img src="{{ rec.header_image }}" style="width: 100%; height: 100px; object-fit: cover;">
-            <h4>{{ rec.name }}</h4>
-            <p style="font-size: 12px;">{{ rec.categories }}</p>
-            <span class="badge">Similarity: {{ rec.similarity }}%</span>
+        <div class="card" style="position: relative; flex-direction: column; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; border: 1px solid #ff00ff;">
+            
+            <div style="position: relative;">
+                <img src="{{ rec.header_image }}" style="width: 100%; height: 140px; object-fit: cover; border-radius: 5px;">
+                <div style="position: absolute; top: 5px; left: 5px; background: rgba(0, 255, 204, 0.9); color: black; padding: 4px 8px; font-weight: bold; font-size: 11px; border-radius: 3px;">
+                    {{ rec.similarity }}% Match
+                </div>
+            </div>
+
+            <h4 style="margin: 10px 0;">{{ rec.name }}</h4>
+            <p style="font-size: 13px; color: #fff; height: 50px; overflow: hidden; margin-bottom: 10px;">{{ rec.short_description }}</p>
+            <div style="font-size: 10px; color: #00ffcc;">{{ rec.categories }}</div>
         </div>
         {% endfor %}
+        
     </div>
     {% endif %}
 </div>
