@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container" style="max-width: 1000px;">
+    <h1>Admin Dashboard</h1>
+    <p style="text-align: center;"><a href="/" style="color: var(--neon-blue);">← Back to Home</a></p>
+    <div>
+        <div>{{ graph_age | safe }}</div>
+        <div>{{ graph_price | safe }}</div>
+        <div>{{ graph_reviews | safe }}</div>
+    </div>
+</div>
+{% endblock %}
