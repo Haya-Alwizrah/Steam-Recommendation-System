@@ -2,50 +2,26 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import pandas as pd
 import numpy as np
 import pickle
-import plotly.express as px
-import plotly.io as pio
 import os
 
 app = Flask(__name__)
 app.secret_key = 'secret_key_for_session'
 
-# --- Model Loading ---
-try:
-    with open('model/model.pkl', 'rb') as f:
-        model_data = pickle.load(f)
+# ------------------------------------------------------------------------------------------[   Model Loading   ]----------------------------------------------------------------------------------------------------
+with open("model/model.pkl", "rb") as f:
+    model_data = pickle.load(f)
 
-    knn = model_data['knn']
-    X_pca = model_data['X_pca']
-    clusters = model_data['clusters']
-    names = model_data['names']
-    ages = model_data['ages']
-    print("Successfully loaded model.pkl")
-except Exception as e:
-    print(f"Error loading model: {e}")
-    knn, X_pca, clusters, names, ages = None, None, None, [], []
+knn = model_data["knn"]
+X_pca = model_data["X_pca"]
+clusters = model_data["clusters"]
+names = model_data["names"]
+ages = model_data["ages"]
 
-# --- Data Loading ---
-interface_path = "dataset/interface_data.csv"
-if not os.path.exists(interface_path): interface_path = "interface_data.csv"
+# ------------------------------------------------------------------------------------------[    Data Loading   ]----------------------------------------------------------------------------------------------------
+df_interface = pd.read_csv("dataset/interface_data.csv")
+df_clean = pd.read_csv("dataset/clean_data.csv")
 
-try:
-    df_interface = pd.read_csv(interface_path)
-    # Ensure 'name' exists
-    if "name" not in df_interface.columns:
-        df_interface.rename(columns={df_interface.columns[0]: "name"}, inplace=True)
-    print(f"Loaded interface data: {len(df_interface)} games.")
-except:
-    df_interface = pd.DataFrame(columns=["name", "short_description", "header_image", "categories", "genres"])
-
-clean_path = "dataset/clean_data.csv"
-if not os.path.exists(clean_path): clean_path = "clean_data.csv"
-try:
-    df_clean = pd.read_csv(clean_path)
-    print("Successfully loaded clean_data.csv for analytics.")
-except:
-    df_clean = pd.DataFrame()
-
-# --- Helpers ---
+# ------------------------------------------------------------------------------------------[ Helpers Functions ]----------------------------------------------------------------------------------------------------
 def get_recommendations(game_name, user_age, n_recommendations=5):
     if game_name not in names or knn is None: return []
     game_idx = np.where(names == game_name)[0][0]
@@ -83,21 +59,21 @@ def get_game_info(game_name):
         "genres": safe_get("genres", "N/A")
     }
 
-# --- Routes ---
+# ------------------------------------------------------------------------------------------[       Route        ]----------------------------------------------------------------------------------------------------
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         user_name = request.form.get("name", "").strip()
         if user_name.lower() == "admin":
-            return redirect(url_for("admin"))
+            return redirect(url_for("dashboard"))
         session['user_name'] = user_name
-        return redirect(url_for("dashboard"))
-    return render_template("index.html")
+        return redirect(url_for("Steam_recommendation_System"))
+    return render_template("home.html")
 
 
-@app.route("/dashboard", methods=["GET", "POST"])
-def dashboard():
-    if 'user_name' not in session: return redirect(url_for("index"))
+@app.route("/Steam_recommendation_System", methods=["GET", "POST"])
+def Steam_recommendation_System():
+    if 'user_name' not in session: return redirect(url_for("home"))
     
     game_list = sorted(list(set(names)))
     selected_game = request.form.get("game") if request.method == "POST" else None
@@ -113,11 +89,11 @@ def dashboard():
             info["similarity"] = rec["similarity"]
             recommendations.append(info)
             
-    return render_template("dashboard.html", games=game_list, selected_info=selected_info, recommendations=recommendations)
+    return render_template("srs.html", games=game_list, selected_info=selected_info, recommendations=recommendations)
 
-@app.route("/admin")
-def admin():
-    return render_template("admin.html")
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
