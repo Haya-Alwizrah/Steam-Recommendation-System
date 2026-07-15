@@ -20,12 +20,13 @@ ages = model_data["ages"]
 
 df_interface = pd.read_csv("dataset/interface_data.csv")
 df_clean = pd.read_csv("dataset/clean_data.csv")
+
 df_interface['clean_name'] = df_interface['name'].astype(str).str.strip().str.lower()
+game_list = sorted(list(set(names)))
 
 # ----------------------------------------------------------------------------[ Helpers Functions ]----------------------------------------------------------------------------------------------------
 def get_recommendations(game_name, user_age, n_recommendations=5):
-    if game_name not in names: 
-        return []
+    if game_name not in game_list: return []
     
     game_idx = np.where(names == game_name)[0][0]
     game_cluster = clusters[game_idx]
@@ -79,7 +80,7 @@ def get_game_info(game_name):
 
 # ----------------------------------------------------------------------------[ Route ]----------------------------------------------------------------------------------------------------
 @app.route("/", methods=["GET", "POST"])
-def index():
+def home():
     if request.method == "POST":
         user_name = request.form.get("name", "").strip()
         user_age = request.form.get("age", "").strip()
@@ -96,7 +97,6 @@ def index():
 def Steam_recommendation_System():
     if 'user_name' not in session: return redirect(url_for("home"))
     
-    game_list = sorted(list(set(names)))
     selected_game = request.form.get("game") if request.method == "POST" else None
     
     recommendations = []
