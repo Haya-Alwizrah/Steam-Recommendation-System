@@ -97,7 +97,7 @@ After preprocessing and one-hot encoding, the dataset contained a large number o
 pca = PCA(n_components=0.95, random_state=42)
 ```
 
-The model automatically selected the number of principal components required to retain **95% of the total variance** in the dataset.
+The model reduced the dataset from 2712 features to 359 principal components while retaining 95% of the variance.
 
 Benefits of PCA:
 * Reduces computational complexity.
