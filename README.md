@@ -37,7 +37,7 @@ metacritic_score    63.879599
 estimated_owners     0.334448
 dtype: float64
 ```
-- Dropped the ذmetacritic_scoreذ column due to the high percentage of missing values.
+- Dropped the `metacritic_score` column due to the high percentage of missing values.
 - Removed rows containing missing values in the remaining columns.
 
 ---
@@ -60,9 +60,11 @@ df = df.drop_duplicates(subset=['name'], keep='first')
 - `estimated_owners`:
 The original values were stored as ranges (e.g., 1,000,000 .. 2,000,000), which Pandas interpreted as object type. We created a function to split each range into its lower and upper bounds, then replaced the range with its average value.
 
-- `genres`, `categories`, `tags`:
+- `developer`, `publisher`, `genres`, `categories`, `tags`:
 These columns contained multiple values within a single cell. We split each value into separate columns using one-hot encoding and added prefixes to the generated columns to avoid duplicate column names.
 generated columns count:
+  - developer: 1291
+  - publisher: 926
   - genres: 24
   - categories: 56
   - tags: 397
