@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 app.secret_key = 'secret_key_for_session'
 
-# ------------------------------------------------------------------------------------------[   Model Loading   ]----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------[ Model & Data Loading ]----------------------------------------------------------------------------------------------------
 with open("model/model.pkl", "rb") as f:
     model_data = pickle.load(f)
 
@@ -17,11 +17,10 @@ clusters = model_data["clusters"]
 names = model_data["names"]
 ages = model_data["ages"]
 
-# ------------------------------------------------------------------------------------------[    Data Loading   ]----------------------------------------------------------------------------------------------------
 df_interface = pd.read_csv("dataset/interface_data.csv")
 df_clean = pd.read_csv("dataset/clean_data.csv")
 
-# ------------------------------------------------------------------------------------------[ Helpers Functions ]----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------[ Helpers Functions ]----------------------------------------------------------------------------------------------------
 def get_recommendations(game_name, user_age, n_recommendations=5):
     if game_name not in names or knn is None: return []
     game_idx = np.where(names == game_name)[0][0]
@@ -42,7 +41,12 @@ def get_game_info(game_name):
     target_name = str(game_name).strip().lower()
     game_row = df_interface[df_interface['name'].astype(str).str.strip().str.lower() == target_name]
     if game_row.empty:
-        return {"name": game_name, "header_image": "", "short_description": "No description available.", "categories": "N/A", "genres": "N/A"}
+        return {
+            "name": game_name,
+            "header_image": "",
+            "short_description": "No description available.",
+            "categories": "N/A",
+            "genres": "N/A"}
     
     row = game_row.iloc[0]
     def safe_get(col, default):
@@ -59,17 +63,20 @@ def get_game_info(game_name):
         "genres": safe_get("genres", "N/A")
     }
 
-# ------------------------------------------------------------------------------------------[       Route        ]----------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------[ Route ]----------------------------------------------------------------------------------------------------
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         user_name = request.form.get("name", "").strip()
+        user_age = request.form.get("age", "").strip()
+        
         if user_name.lower() == "admin":
             return redirect(url_for("dashboard"))
+            
         session['user_name'] = user_name
+        session['user_age'] = int(user_age) if user_age.isdigit() else 20
         return redirect(url_for("Steam_recommendation_System"))
     return render_template("home.html")
-
 
 @app.route("/Steam_recommendation_System", methods=["GET", "POST"])
 def Steam_recommendation_System():

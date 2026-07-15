@@ -47,6 +47,14 @@ h3 { font-size: 1.8rem; }
     border: 2px solid var(--neon-cyan);
 }
 
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: transparent;
+    padding: 30px;
+    border-radius: 15px;
+}
+
 .card {
     background: rgba(30, 30, 47, 0.9);
     border: 1px solid var(--neon-pink);
@@ -238,14 +246,4 @@ button:hover {
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.98); }
     to { opacity: 1; transform: scale(1); }
-}
-
-.admin-hint {
-    background: rgba(0, 210, 211, 0.1);
-    border-left: 4px solid var(--neon-cyan);
-    padding: 12px;
-    margin: 15px 0;
-    color: var(--text-muted);
-    font-size: 1.2rem;
-    text-align: center;
 }
