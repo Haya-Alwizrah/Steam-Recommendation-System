@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import os
+from sklearn.neighbors import NearestNeighbors
 
 app = Flask(__name__)
 app.secret_key = 'secret_key_for_session'
@@ -19,48 +20,61 @@ ages = model_data["ages"]
 
 df_interface = pd.read_csv("dataset/interface_data.csv")
 df_clean = pd.read_csv("dataset/clean_data.csv")
+df_interface['clean_name'] = df_interface['name'].astype(str).str.strip().str.lower()
 
 # ----------------------------------------------------------------------------[ Helpers Functions ]----------------------------------------------------------------------------------------------------
 def get_recommendations(game_name, user_age, n_recommendations=5):
-    if game_name not in names: return []
+    if game_name not in names: 
+        return []
+    
     game_idx = np.where(names == game_name)[0][0]
     game_cluster = clusters[game_idx]
     
-    cluster_indices = np.where(clusters == game_cluster)[0]
+    cluster_indices = set(np.where(clusters == game_cluster)[0])
     distances, indices = knn.kneighbors(X_pca[game_idx].reshape(1, -1), n_neighbors=len(names))
     
     results = []
     for distance, idx in zip(distances[0], indices[0]):
         if idx == game_idx or idx not in cluster_indices: continue
         if ages[idx] > user_age: continue
+            
         results.append({"name": names[idx], "similarity": round((1 - distance) * 100, 2)})
+        
         if len(results) == n_recommendations: break
+            
     return results
 
+
+def _safe_get_val(row, col_name, default="N/A", df_cols=None):
+    if col_name in df_cols:
+        val = row[col_name]
+        if pd.notna(val) and str(val).strip().lower() != 'nan':
+            return str(val)
+    return default
+
+
 def get_game_info(game_name):
-    target_name = str(game_name).strip().lower()
-    game_row = df_interface[df_interface['name'].astype(str).str.strip().str.lower() == target_name]
+    target_name = str(game_name).strip().lower()   
+    game_row = df_interface[df_interface['clean_name'] == target_name]
+    
     if game_row.empty:
         return {
             "name": game_name,
             "header_image": "",
             "short_description": "No description available.",
             "categories": "N/A",
-            "genres": "N/A"}
+            "genres": "N/A"
+        }
     
     row = game_row.iloc[0]
-    def safe_get(col, default):
-        if col in df_interface.columns:
-            val = row[col]
-            if pd.notna(val) and str(val).strip().lower() != 'nan': return str(val)
-        return default
-        
+    cols = df_interface.columns
+    
     return {
         "name": game_name,
-        "header_image": safe_get("header_image", ""),
-        "short_description": safe_get("short_description", "No description available."),
-        "categories": safe_get("categories", "N/A"),
-        "genres": safe_get("genres", "N/A")
+        "header_image": _safe_get_val(row, "header_image", "", cols),
+        "short_description": _safe_get_val(row, "short_description", "No description available.", cols),
+        "categories": _safe_get_val(row, "categories", "N/A", cols),
+        "genres": _safe_get_val(row, "genres", "N/A", cols)
     }
 
 # ----------------------------------------------------------------------------[ Route ]----------------------------------------------------------------------------------------------------
@@ -152,7 +166,7 @@ def dashboard():
     ]
 
     return render_template(
-        "dashboard2.html", 
+        "dashboard.html", 
         summary_stats=summary_stats,
         preview_columns=preview_columns,
         top_5_rows=top_5_rows,

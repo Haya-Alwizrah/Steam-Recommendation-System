@@ -1,52 +1,76 @@
 {% extends "base.html" %}
 {% block content %}
-<div>
-    <h1>ADMIN CONTROL PANEL</h1>
-    <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Exploratory Data Analysis (EDA) & Game Metrics</p>
 
-    <div class="admin-layout">
-        <div class="sidebar">
-            <button class="tab-btn active" data-target="view-age">1. Numerical Histogram</button>
-            <button class="tab-btn" data-target="view-price">2. Age_required countplot</button>
-            <button class="tab-btn" data-target="view-reviews">3. Boxplot</button>
-            <button class="tab-btn" data-target="view-genres">4. Categorical Barplot</button>
-            <button class="tab-btn" data-target="view-scatter">5. Booline Countplot</button>
-            <button class="tab-btn" data-target="view-free">6. Corrlation Matrix</button>
+<div class="dashboard-wrapper">
+    <h1 class="dashboard-title">Data Analysis Dashboard</h1>
+
+    <section class="dashboard-section">
+        <h2 class="section-title">1. Summary Statistics</h2>
+        <div class="stats-grid">
+            <div class="stat-card stat-card-blue">
+                <h3 class="stat-card-title">Total Games</h3>
+                <p class="stat-card-value">{{ summary_stats.total_games }}</p>
+            </div>
+            <div class="stat-card stat-card-green">
+                <h3 class="stat-card-title">Average Price (SAR)</h3>
+                <p class="stat-card-value">{{ summary_stats.avg_price }} SAR</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="dashboard-section">
+        <h2 class="section-title">2. Data Preview (First 5 Rows)</h2>
+        <div class="table-container">
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        {% for col in preview_columns %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in top_5_rows %}
+                    <tr>
+                        {% for col in preview_columns %}
+                            <td>{{ row[col] }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="dashboard-section">
+        <h2 class="section-title">3. Visualizations & Analytical Insights</h2>
+        
+        <div class="selector-container">
+            <label for="chartSelector" class="selector-label">Select Visualization:</label>
+            <select id="chartSelector" class="chart-selector">
+                {% for chart in charts_data %}
+                    <option value="{{ chart.id }}">{{ chart.title }}</option>
+                {% endfor %}
+            </select>
         </div>
 
-        <div class="display-area">
-            
-            <div id="view-age" class="chart-view active">
-                <h3 style="margin-bottom: 10px;">Numerical Histogram</h3>
-                <img src="{{ url_for('static', filename='img/chart1_hist.png') }}" class="chart-img" alt="Age Requirements">
-            </div>
-
-            <div id="view-price" class="chart-view">
-                <h3 style="margin-bottom: 10px;"> Age_required countplot</h3>
-                <img src="{{ url_for('static', filename='img/chart2_age.png') }}" class="chart-img" alt="Price Distribution">
-            </div>
-
-            <div id="view-reviews" class="chart-view">
-                <h3 style="margin-bottom: 10px;">Boxplot</h3>
-                <img src="{{ url_for('static', filename='img/chart3_boxplot.png') }}" class="chart-img" alt="Top Reviews">
-            </div>
-
-            <div id="view-genres" class="chart-view">
-                <h3 style="margin-bottom: 10px;">Categorical Barplot</h3>
-                <img src="{{ url_for('static', filename='img/chart4_categ.png') }}" class="chart-img" alt="Top Genres">
-            </div>
-
-            <div id="view-scatter" class="chart-view">
-                <h3 style="margin-bottom: 10px;">Booline Countplot</h3>
-                <img src="{{ url_for('static', filename='img/chart5_bool.png') }}" class="chart-img" alt="Price vs Reviews">
-            </div>
-
-            <div id="view-free" class="chart-view">
-                <h3 style="margin-bottom: 10px;">Corrlation Matrix</h3>
-                <img src="{{ url_for('static', filename='img/chart6_corr.png') }}" class="chart-img" alt="Free vs Paid">
-            </div>
-
+        <div id="chartsContainer" class="charts-container">
+            {% for chart in charts_data %}
+                <div id="{{ chart.id }}" class="chart-box {% if loop.first %}active{% endif %}">
+                    <h3 class="chart-title">{{ chart.title }}</h3>
+                    
+                    <div class="chart-image-wrapper">
+                        <img src="{{ url_for('static', filename=chart.image_filename) }}" alt="{{ chart.title }}" class="chart-image">
+                    </div>
+                    
+                    <div class="insight-box">
+                        <h4 class="insight-title">Insight:</h4>
+                        <p class="insight-text">{{ chart.insight }}</p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    </div>
+    </section>
 </div>
+
 {% endblock %}

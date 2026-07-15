@@ -12,16 +12,16 @@
     </form>
 
     {% if selected_info %}
-    <div class="card game-detail-card" style="display: flex; gap: 25px; align-items: flex-start; padding: 25px; margin-bottom: 40px; background: rgba(30, 30, 47, 0.6); border-radius: 12px;">
-        <img src="{{ selected_info.header_image }}" class="game-header-img" alt="{{ selected_info.name }}" style="width: 320px; border-radius: 8px; object-fit: cover; border: 2px solid var(--neon-cyan);">
-        <div class="game-info-content" style="flex-grow: 1;">
-            <h3 style="font-size: 2.2rem; color: var(--neon-cyan); margin-top: 0; margin-bottom: 15px;">{{ selected_info.name }}</h3>
+    <div class="card game-detail-card">
+        <img src="{{ selected_info.header_image }}" class="game-header-img" alt="{{ selected_info.name }}">
+        <div class="game-info-content">
+            <h3>{{ selected_info.name }}</h3>
             
-            <p style="font-size: 1.3rem; line-height: 1.6; color: var(--text-color); margin-bottom: 25px;">
+            <p class="game-desc">
                 {{ selected_info.short_description | safe }}
             </p>
             
-            <div class="tags-box" style="font-size: 1rem; line-height: 1.6; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px;">
+            <div class="tags-box" style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px;">
                 <div style="margin-bottom: 6px;"><strong style="color: var(--neon-pink);">Genres:</strong> <span style="color: #fff;">{{ selected_info.genres }}</span></div>
                 <div><strong style="color: var(--neon-pink);">Categories:</strong> <span style="color: #fff;">{{ selected_info.categories }}</span></div>
             </div>

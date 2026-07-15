@@ -3,11 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (backBtn) {
         backBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            if (window.history.length > 1 && document.referrer !== "") {
-                window.history.back();
-            } else {
-                window.location.href = '/';
-            }
+            window.location.href = '/'; 
         });
     }
 
@@ -26,6 +22,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetView = document.getElementById(targetId);
                 if (targetView) {
                     targetView.classList.add('active');
+                }
+            });
+        });
+    }
+
+    const chartSelector = document.getElementById('chartSelector');
+    if (chartSelector) {
+        chartSelector.addEventListener('change', (e) => {
+            const selectedId = e.target.value;
+            const boxes = document.querySelectorAll('.chart-box');
+            
+            boxes.forEach(box => {
+                if (box.id === selectedId) {
+                    box.classList.add('active');
+                } else {
+                    box.classList.remove('active');
                 }
             });
         });

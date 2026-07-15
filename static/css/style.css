@@ -247,3 +247,267 @@ button:hover {
     from { opacity: 0; transform: scale(0.98); }
     to { opacity: 1; transform: scale(1); }
 }
+
+.dashboard-wrapper {
+    padding: 30px;
+    color: #2d3748;
+    max-width: 1200px;
+    margin: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: ltr;
+    text-align: left;
+}
+
+.dashboard-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 800;
+    border-bottom: 3px solid #3182ce;
+    padding-bottom: 15px;
+    display: inline-block;
+    width: 100%;
+    text-shadow: none;
+}
+
+.dashboard-section {
+    margin-bottom: 45px;
+}
+
+.section-title {
+    color: #2b6cb0;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+    font-size: 22px;
+    text-align: left;
+    text-shadow: none;
+}
+
+.stats-grid {
+    display: flex;
+    gap: 25px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-card {
+    flex: 1;
+    min-width: 250px;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.stat-card-blue {
+    background: #ebf8ff;
+    border: 1px solid #bee3f8;
+}
+
+.stat-card-blue .stat-card-title,
+.stat-card-blue .stat-card-value {
+    color: #2b6cb0;
+    text-shadow: none;
+}
+
+.stat-card-green {
+    background: #f0fff4;
+    border: 1px solid #c6f6d5;
+}
+
+.stat-card-green .stat-card-title {
+    color: #22543d;
+    text-shadow: none;
+}
+
+.stat-card-green .stat-card-value {
+    color: #276749;
+    text-shadow: none;
+}
+
+.stat-card-title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.stat-card-value {
+    font-size: 36px;
+    font-weight: 800;
+    margin: 12px 0 0 0;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background: #fff;
+}
+
+.dashboard-table thead {
+    background-color: #2d3748;
+    color: #fff;
+}
+
+.dashboard-table th {
+    padding: 14px;
+    border: 1px solid #4a5568;
+    font-size: 15px;
+}
+
+.dashboard-table td {
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.dashboard-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+    transition: background 0.2s;
+    background: transparent;
+}
+
+.dashboard-table tbody tr:hover {
+    background-color: #f7fafc !important;
+}
+
+.selector-container {
+    margin: 25px 0;
+    text-align: center;
+    background: #f7fafc;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #edf2f7;
+}
+
+.selector-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 15px;
+    color: #2d3748;
+}
+
+.chart-selector {
+    width: auto;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 2px solid #cbd5e0;
+    background-color: #fff;
+    color: #2d3748;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.chart-selector:focus {
+    border-color: #3182ce;
+    box-shadow: none;
+}
+
+.charts-container {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+}
+
+.chart-box {
+    text-align: center;
+    display: none;
+}
+
+.chart-box.active {
+    display: block;
+}
+
+.chart-title {
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+.chart-image-wrapper {
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #edf2f7;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    max-width: 100%;
+}
+
+.chart-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    max-height: 550px;
+    object-fit: contain;
+}
+
+.insight-box {
+    background: #edf2f7;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 6px solid #3182ce;
+    text-align: left;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.insight-title {
+    margin-top: 0;
+    color: #2b6cb0;
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-shadow: none;
+}
+
+.insight-text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #4a5568;
+}
+
+@media (max-width: 768px) {
+    .game-detail-card {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 15px !important;
+        padding: 15px !important;
+    }
+
+    .game-header-img, 
+    .game-detail-card img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: 250px;
+    }
+
+    .game-info-content {
+        width: 100%;
+    }
+
+    .game-info-content h3 {
+        text-align: center !important;
+        font-size: 1.8rem !important;
+    }
+
+    .game-desc {
+        max-height: none !important;
+    }
+}
