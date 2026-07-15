@@ -22,7 +22,7 @@ df_clean = pd.read_csv("dataset/clean_data.csv")
 
 # ----------------------------------------------------------------------------[ Helpers Functions ]----------------------------------------------------------------------------------------------------
 def get_recommendations(game_name, user_age, n_recommendations=5):
-    if game_name not in names or knn is None: return []
+    if game_name not in names: return []
     game_idx = np.where(names == game_name)[0][0]
     game_cluster = clusters[game_idx]
     
