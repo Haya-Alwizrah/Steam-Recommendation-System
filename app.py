@@ -87,13 +87,13 @@ def get_game_info(game_name):
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        session['user_name'] = request.form.get("name", "").strip()
-        session['user_age'] = request.form.get("age", 0, type=int)
-        
-        if session['user_name'].lower() == "admin":
+        user_name = request.form.get("name", "").strip()
+        if user_name.lower() == "admin":
             return redirect(url_for("admin"))
+        session['user_name'] = user_name
         return redirect(url_for("dashboard"))
     return render_template("index.html")
+
 
 @app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
@@ -117,19 +117,7 @@ def dashboard():
 
 @app.route("/admin")
 def admin():
-    # Plots
-    fig_age = px.histogram(df_clean, x="required_age", title="Age Requirement Distribution") if not df_clean.empty and "required_age" in df_clean.columns else px.histogram(title="No age data")
-    fig_age.update_layout(template="plotly_dark", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
-    
-    price_col = next((c for c in ["price_sar", "price", "initialprice"] if c in df_clean.columns), None)
-    fig_price = px.box(df_clean, x=price_col, title="Game Price Distribution") if price_col else px.box(title="No price data")
-    fig_price.update_layout(template="plotly_dark", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
-    
-    rev_col = next((c for c in ["positive_reviews", "recommendations"] if c in df_clean.columns), None)
-    fig_reviews = px.bar(df_clean.nlargest(15, rev_col), x=rev_col, y="name", orientation='h', title=f"Top Games by {rev_col}") if rev_col else px.bar(title="No review data")
-    fig_reviews.update_layout(template="plotly_dark", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
-    
-    return render_template("admin.html", graph_age=pio.to_html(fig_age, full_html=False), graph_price=pio.to_html(fig_price, full_html=False), graph_reviews=pio.to_html(fig_reviews, full_html=False))
+    return render_template("admin.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,12 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container" style="max-width: 1000px;">
-    <h1>Admin Dashboard</h1>
-    <p style="text-align: center;"><a href="/" style="color: var(--neon-blue);">← Back to Home</a></p>
-    <div>
-        <div>{{ graph_age | safe }}</div>
-        <div>{{ graph_price | safe }}</div>
-        <div>{{ graph_reviews | safe }}</div>
+<div>
+    <h1>ADMIN CONTROL PANEL</h1>
+    <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Exploratory Data Analysis (EDA) & Metrics</p>
+
+    <div class="admin-layout">
+        <div class="sidebar">
+            <button class="tab-btn active" data-target="view-age">1. Age Requirement</button>
+            <button class="tab-btn" data-target="view-price">2. Price Distribution</button>
+            <button class="tab-btn" data-target="view-reviews">3. Top Reviewed Games</button>
+            <button class="tab-btn" data-target="view-genres">4. Popular Genres</button>
+            <button class="tab-btn" data-target="view-scatter">5. Price vs Review Correlation</button>
+            <button class="tab-btn" data-target="view-free">6. Free vs Paid Ratio</button>
+        </div>
+
+        <div class="display-area">
+            
+            <div id="view-age" class="chart-view active">
+                <h3 style="margin-bottom: 10px;">Age Requirement Distribution</h3>
+                <img src="{{ url_for('static', filename='images/chart_age.png') }}" class="chart-img" alt="Age Requirements">
+            </div>
+
+            <div id="view-price" class="chart-view">
+                <h3 style="margin-bottom: 10px;">Game Price Distribution ($)</h3>
+                <img src="{{ url_for('static', filename='images/chart_price.png') }}" class="chart-img" alt="Price Distribution">
+            </div>
+
+            <div id="view-reviews" class="chart-view">
+                <h3 style="margin-bottom: 10px;">Top 10 Highly Recommended Games</h3>
+                <img src="{{ url_for('static', filename='images/chart_reviews.png') }}" class="chart-img" alt="Top Reviews">
+            </div>
+
+            <div id="view-genres" class="chart-view">
+                <h3 style="margin-bottom: 10px;">Top Played Genres Ratio</h3>
+                <img src="{{ url_for('static', filename='images/chart_genres.png') }}" class="chart-img" alt="Top Genres">
+            </div>
+
+            <div id="view-scatter" class="chart-view">
+                <h3 style="margin-bottom: 10px;">Price vs Reviews Correlation</h3>
+                <img src="{{ url_for('static', filename='images/chart_scatter.png') }}" class="chart-img" alt="Price vs Reviews">
+            </div>
+
+            <div id="view-free" class="chart-view">
+                <h3 style="margin-bottom: 10px;">Free vs Paid Video Games Ratio</h3>
+                <img src="{{ url_for('static', filename='images/chart_free.png') }}" class="chart-img" alt="Free vs Paid">
+            </div>
+
+        </div>
     </div>
 </div>
 {% endblock %}

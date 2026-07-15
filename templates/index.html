@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Steam Recommendation System</title>
-    <style>
-        body { background: #0d0d0d; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
-        .container { text-align: center; border: 2px solid #00ffcc; padding: 40px; border-radius: 20px; box-shadow: 0 0 20px #9d00ff; }
-        h1 { font-size: 50px; text-shadow: 0 0 10px #00ffcc; margin-bottom: 30px; }
-        input { width: 300px; padding: 15px; margin: 10px; background: #1a1a1a; border: 1px solid #00ffcc; color: white; border-radius: 5px; }
-        button { width: 320px; padding: 15px; background: #ff00ff; border: none; color: white; cursor: pointer; font-size: 18px; margin-top: 20px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>STEAM RECOMMENDATION SYSTEM</h1>
-        <form method="POST">
-            <input type="text" name="name" placeholder="Enter your name" required><br>
-            <input type="number" name="age" placeholder="Enter your age" required><br>
-            <button type="submit">ENTER</button>
-        </form>
+{% extends "base.html" %}
+{% block content %}
+<div style="text-align: center; padding: 40px 0;">
+    <h1>STEAM RECOMMENDATION SYSTEM</h1>
+    <p style="color: var(--text-muted); margin-bottom: 30px;">An Intelligent Game Discovery & Recommendation Engine</p>
+
+    <!-- Admin Hint in English -->
+    <div class="admin-hint">
+        💡 <b>Tip:</b> To access the analytical panel and charts, type <span style="color: var(--neon-pink); font-weight: bold;">admin</span> in the username field.
     </div>
-</body>
-</html>
+
+    <form method="POST" style="max-width: 400px; margin: 30px auto;">
+        <div style="margin-bottom: 20px;">
+            <input type="text" name="name" placeholder="Enter your username..." required autocomplete="off" style="text-align: center;">
+        </div>
+        <button type="submit" style="width: 100%;">ACCESS SYSTEM 🚀</button>
+    </form>
+</div>
+{% endblock %}
