@@ -80,6 +80,7 @@ h3 { font-size: 1.8rem; }
     color: #fff;
     font-size: 2.2rem;
     margin-bottom: 8px;
+    text-align: left;
 }
 
 .game-desc {
@@ -113,7 +114,6 @@ h3 { font-size: 1.8rem; }
     color: var(--neon-pink);
 }
 
-/* --- Form Fields --- */
 input, select {
     width: 100%;
     padding: 12px 15px;

@@ -2,7 +2,7 @@
 {% block content %}
 <div>
     <h1>ADMIN CONTROL PANEL</h1>
-    <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Exploratory Data Analysis (EDA) & Metrics</p>
+    <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Exploratory Data Analysis (EDA) & Game Metrics</p>
 
     <div class="admin-layout">
         <div class="sidebar">
@@ -10,40 +10,40 @@
             <button class="tab-btn" data-target="view-price">2. Price Distribution</button>
             <button class="tab-btn" data-target="view-reviews">3. Top Reviewed Games</button>
             <button class="tab-btn" data-target="view-genres">4. Popular Genres</button>
-            <button class="tab-btn" data-target="view-scatter">5. Price vs Review Correlation</button>
+            <button class="tab-btn" data-target="view-scatter">5. Price vs Reviews</button>
             <button class="tab-btn" data-target="view-free">6. Free vs Paid Ratio</button>
         </div>
 
         <div class="display-area">
             
             <div id="view-age" class="chart-view active">
-                <h3 style="margin-bottom: 10px;">Age Requirement Distribution</h3>
-                <img src="{{ url_for('static', filename='images/chart_age.png') }}" class="chart-img" alt="Age Requirements">
+                <h3 style="margin-bottom: 10px;">Numerical Histogram</h3>
+                <img src="{{ url_for('static', filename='img/chart1_hist.png') }}" class="chart-img" alt="Age Requirements">
             </div>
 
             <div id="view-price" class="chart-view">
-                <h3 style="margin-bottom: 10px;">Game Price Distribution ($)</h3>
-                <img src="{{ url_for('static', filename='images/chart_price.png') }}" class="chart-img" alt="Price Distribution">
+                <h3 style="margin-bottom: 10px;"> Age_required countplot</h3>
+                <img src="{{ url_for('static', filename='img/chart2_age.png') }}" class="chart-img" alt="Price Distribution">
             </div>
 
             <div id="view-reviews" class="chart-view">
-                <h3 style="margin-bottom: 10px;">Top 10 Highly Recommended Games</h3>
-                <img src="{{ url_for('static', filename='images/chart_reviews.png') }}" class="chart-img" alt="Top Reviews">
+                <h3 style="margin-bottom: 10px;">Boxplot</h3>
+                <img src="{{ url_for('static', filename='img/chart3_boxplot.png') }}" class="chart-img" alt="Top Reviews">
             </div>
 
             <div id="view-genres" class="chart-view">
-                <h3 style="margin-bottom: 10px;">Top Played Genres Ratio</h3>
-                <img src="{{ url_for('static', filename='images/chart_genres.png') }}" class="chart-img" alt="Top Genres">
+                <h3 style="margin-bottom: 10px;">Categorical Barplot</h3>
+                <img src="{{ url_for('static', filename='img/chart4_categ.png') }}" class="chart-img" alt="Top Genres">
             </div>
 
             <div id="view-scatter" class="chart-view">
-                <h3 style="margin-bottom: 10px;">Price vs Reviews Correlation</h3>
-                <img src="{{ url_for('static', filename='images/chart_scatter.png') }}" class="chart-img" alt="Price vs Reviews">
+                <h3 style="margin-bottom: 10px;">Booline Countplot</h3>
+                <img src="{{ url_for('static', filename='img/chart5_bool.png') }}" class="chart-img" alt="Price vs Reviews">
             </div>
 
             <div id="view-free" class="chart-view">
-                <h3 style="margin-bottom: 10px;">Free vs Paid Video Games Ratio</h3>
-                <img src="{{ url_for('static', filename='images/chart_free.png') }}" class="chart-img" alt="Free vs Paid">
+                <h3 style="margin-bottom: 10px;">Corrlation Matrix</h3>
+                <img src="{{ url_for('static', filename='img/chart6_corr.png') }}" class="chart-img" alt="Free vs Paid">
             </div>
 
         </div>

@@ -4,7 +4,7 @@
     <h2>Search Your Favorite Game to Discover Similar Titles</h2>
     
     <form method="POST" style="display: flex; gap: 15px; margin: 30px 0;">
-        <input list="games" name="game" placeholder="Type a game title here..." required style="flex-grow: 1;">
+        <input list="games" name="game" placeholder="Type game title here..." required style="flex-grow: 1;">
         <datalist id="games">
             {% for g in games %} <option value="{{ g }}"> {% endfor %}
         </datalist>
@@ -39,7 +39,7 @@
     {% endif %}
 
     {% if recommendations %}
-    <h3 style="margin-bottom: 20px;">Recommended Games For You:</h3>
+    <h3 style="margin-bottom: 20px;">Recommended Games for You:</h3>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
         {% for rec in recommendations %}
         <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
