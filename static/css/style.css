@@ -511,3 +511,21 @@ button:hover {
         max-height: none !important;
     }
 }
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(243, 243, 245, 0.9);
+    color: rgba(30, 30, 47, 0.9);
+    font-size: 1rem;
+}
+
+.dashboard-table th, .dashboard-table td {
+    padding: 12px;
+    border: 1px solid var(--neon-cyan);
+    text-align: center;
+}
+
+.dashboard-table th {
+    background: var(--neon-purple);
+}

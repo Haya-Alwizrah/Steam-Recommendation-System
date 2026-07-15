@@ -117,10 +117,8 @@ def dashboard():
     total_games = len(df_clean)
     avg_price = round(df_clean['price_sar'].mean(), 2) if 'price_sar' in df_clean.columns else 0
     
-    summary_stats = {
-        "total_games": total_games,
-        "avg_price": avg_price
-    }
+    stats_df = df_clean.describe().round(2)
+    stats_data = stats_df.to_dict()
 
     preview_columns = ['name', 'release_year', 'price_sar', 'is_free', 'discount_pct', 'required_age', 'positive_reviews']
     preview_columns = [col for col in preview_columns if col in df_clean.columns]
@@ -131,43 +129,43 @@ def dashboard():
             "id": "chart1_hist",
             "title": "Numerical Variables Distribution (Histograms)",
             "image_filename": "img/chart1_hist.png",
-            "insight": "Most numerical variables like reviews, playtimes, and concurrent users show a severe right-skewed distribution. This mathematically confirms that the vast majority of games have low engagement metrics, while a few blockbuster titles hold massive numbers. Conversely, release years are left-skewed, showing rapid growth in game releases in recent years."
+            "insight": "Most numerical features are right-skewed, meaning that most games have relatively low values while only a few highly popular games have extremely high values. The dataset is mainly composed of games released between 2015 and 2023."
         },
         {
             "id": "chart2_age",
             "title": "Games by Required Age",
             "image_filename": "img/chart2_age.png",
-            "insight": "An overwhelming majority of games are rated 0, meaning they have no age restrictions and are suitable for everyone. The next prominent category is 17+, while other ratings are nearly non-existent. This reveals a clear strategy by developers to target the widest possible audience."
+            "insight": "Most games have no age restriction, while games rated 17+ represent the second largest group. Other age ratings appear only rarely."
         },
         {
             "id": "chart3_boxplot",
             "title": "Boxplots of Release Year & Price",
             "image_filename": "img/chart3_boxplot.png",
-            "insight": "The boxplots clearly identify statistical outliers. For release years, games launched before 2005 are considered outliers. For prices, the median price sits below 50 SAR, and any game priced above 170 SAR is flagged as an outlier, proving that high premium prices are exceptions on Steam."
+            "insight": "The boxplots show several outliers in both release year and price. Most games were released after 2015 and are priced below 80 SAR."
         },
         {
             "id": "chart4_categ",
             "title": "Top Genres, Categories, Tags, Developers & Publishers",
             "image_filename": "img/chart4_categ.png",
-            "insight": "Indie, Action, and Adventure are the dominant genres and tags in terms of volume. When looking at industry leaders, Capcom ranks high among developers, while Sega and Ubisoft lead as publishers. This highlights a market balanced between high-volume indie creation and high-revenue corporate publishing."
+            "insight": "Indie, Action, and Adventure are the most common genres, while Single-player is the dominant category and tag. Sega, Ubisoft, and Capcom are among the most represented publishers and developers."
         },
         {
             "id": "chart5_bool",
             "title": "Binary Features Comparison (Boolean)",
             "image_filename": "img/chart5_bool.png",
-            "insight": "Paid games dominate the platform compared to free-to-play options. In terms of OS compatibility, Windows is universally supported, whereas Mac is supported by less than half of the catalog, and Linux compatibility drops even lower, emphasizing platform accessibility barriers."
+            "insight": "Paid games are more common than free-to-play games. Most games also do not support macOS or Linux, indicating that Windows is the primary platform."
         },
         {
             "id": "chart6_corr",
             "title": "Correlation Matrix of Steam Game Features",
             "image_filename": "img/chart6_corr.png",
-            "insight": "There is a near-perfect positive correlation (0.98) between recommendations, positive reviews, negative reviews, and peak concurrent users. This shows that popularity and player base scale all review metrics simultaneously. Meanwhile, price and achievement counts show almost no linear relationship with popularity."
+            "insight": "Popularity-related features, such as recommendations, reviews, owners, and peak concurrent users, have very strong positive correlations. In contrast, price, discount, and release year show weak relationships with most other features."
         }
     ]
 
     return render_template(
         "dashboard.html", 
-        summary_stats=summary_stats,
+        stats_data=stats_data,
         preview_columns=preview_columns,
         top_5_rows=top_5_rows,
         charts_data=charts_data

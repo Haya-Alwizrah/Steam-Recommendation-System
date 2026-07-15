@@ -5,18 +5,30 @@
     <h1 class="dashboard-title">Data Analysis Dashboard</h1>
 
     <section class="dashboard-section">
-        <h2 class="section-title">1. Summary Statistics</h2>
-        <div class="stats-grid">
-            <div class="stat-card stat-card-blue">
-                <h3 class="stat-card-title">Total Games</h3>
-                <p class="stat-card-value">{{ summary_stats.total_games }}</p>
-            </div>
-            <div class="stat-card stat-card-green">
-                <h3 class="stat-card-title">Average Price (SAR)</h3>
-                <p class="stat-card-value">{{ summary_stats.avg_price }} SAR</p>
-            </div>
-        </div>
-    </section>
+    <h2 class="section-title">Detailed Statistical Analysis</h2>
+    <div class="table-container" style="overflow-x: auto;">
+        <table class="dashboard-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    {% for col in stats_data.keys() %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in ['count', 'mean', 'std', 'min', '50%', 'max'] %}
+                <tr>
+                    <td><strong>{{ stat }}</strong></td>
+                    {% for col in stats_data.keys() %}
+                        <td>{{ stats_data[col][stat] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
 
     <section class="dashboard-section">
         <h2 class="section-title">2. Data Preview (First 5 Rows)</h2>
