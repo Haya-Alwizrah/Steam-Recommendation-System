@@ -100,7 +100,64 @@ def Steam_recommendation_System():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    total_games = len(df_clean)
+    avg_price = round(df_clean['price_sar'].mean(), 2) if 'price_sar' in df_clean.columns else 0
+    
+    summary_stats = {
+        "total_games": total_games,
+        "avg_price": avg_price
+    }
+
+    preview_columns = ['name', 'release_year', 'price_sar', 'is_free', 'discount_pct', 'required_age', 'positive_reviews']
+    preview_columns = [col for col in preview_columns if col in df_clean.columns]
+    top_5_rows = df_clean[preview_columns].head(5).to_dict(orient='records')
+
+    charts_data = [
+        {
+            "id": "chart1_hist",
+            "title": "Numerical Variables Distribution (Histograms)",
+            "image_filename": "img/chart1_hist.png",
+            "insight": "Most numerical variables like reviews, playtimes, and concurrent users show a severe right-skewed distribution. This mathematically confirms that the vast majority of games have low engagement metrics, while a few blockbuster titles hold massive numbers. Conversely, release years are left-skewed, showing rapid growth in game releases in recent years."
+        },
+        {
+            "id": "chart2_age",
+            "title": "Games by Required Age",
+            "image_filename": "img/chart2_age.png",
+            "insight": "An overwhelming majority of games are rated 0, meaning they have no age restrictions and are suitable for everyone. The next prominent category is 17+, while other ratings are nearly non-existent. This reveals a clear strategy by developers to target the widest possible audience."
+        },
+        {
+            "id": "chart3_boxplot",
+            "title": "Boxplots of Release Year & Price",
+            "image_filename": "img/chart3_boxplot.png",
+            "insight": "The boxplots clearly identify statistical outliers. For release years, games launched before 2005 are considered outliers. For prices, the median price sits below 50 SAR, and any game priced above 170 SAR is flagged as an outlier, proving that high premium prices are exceptions on Steam."
+        },
+        {
+            "id": "chart4_categ",
+            "title": "Top Genres, Categories, Tags, Developers & Publishers",
+            "image_filename": "img/chart4_categ.png",
+            "insight": "Indie, Action, and Adventure are the dominant genres and tags in terms of volume. When looking at industry leaders, Capcom ranks high among developers, while Sega and Ubisoft lead as publishers. This highlights a market balanced between high-volume indie creation and high-revenue corporate publishing."
+        },
+        {
+            "id": "chart5_bool",
+            "title": "Binary Features Comparison (Boolean)",
+            "image_filename": "img/chart5_bool.png",
+            "insight": "Paid games dominate the platform compared to free-to-play options. In terms of OS compatibility, Windows is universally supported, whereas Mac is supported by less than half of the catalog, and Linux compatibility drops even lower, emphasizing platform accessibility barriers."
+        },
+        {
+            "id": "chart6_corr",
+            "title": "Correlation Matrix of Steam Game Features",
+            "image_filename": "img/chart6_corr.png",
+            "insight": "There is a near-perfect positive correlation (0.98) between recommendations, positive reviews, negative reviews, and peak concurrent users. This shows that popularity and player base scale all review metrics simultaneously. Meanwhile, price and achievement counts show almost no linear relationship with popularity."
+        }
+    ]
+
+    return render_template(
+        "dashboard2.html", 
+        summary_stats=summary_stats,
+        preview_columns=preview_columns,
+        top_5_rows=top_5_rows,
+        charts_data=charts_data
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
