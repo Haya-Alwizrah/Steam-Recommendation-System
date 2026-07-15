@@ -78,7 +78,7 @@ The original values were stored as dates such as `May 17, 2022`, which Pandas tr
 - Price Conversion:
 We converted the `price_usd` column to `price_sar` by multiplying each value by 3.75.
 
-
+---
 # Models:
 
 ## Feature Scaling
