@@ -1,6 +1,6 @@
 # Steam Recommendation System
 
-Steam Recommendation System is a project focused on Exploratory Data Analysis (EDA), with the addition of an unsupervised machine learning model to build a game recommendation system, developed as part of the Tuwaiq Academy (Data Science and Artificial Intelligence) Bootcamp.
+Steam Recommendation System is a project focused on Exploratory Data Analysis (EDA), with an unsupervised machine learning model to build a game recommendation system, developed as part of the Tuwaiq Academy (Data Science and Artificial Intelligence) Bootcamp.
 
 Live Demo: ....
 
